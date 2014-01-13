@@ -44,8 +44,6 @@ class Fluent::ElasticsearchOutput < Fluent::BufferedOutput
       if @logstash_format
         record.merge!({"@timestamp" => Time.at(time).to_datetime.to_s})
         target_index = "#{@logstash_prefix}-#{Time.at(time).getutc.strftime("#{@logstash_dateformat}")}"
-      elsif @index_name.respond_to?(:call)
-        target_index = @index_name.call(tag, time, record)
       else
         target_index = @index_name
       end
